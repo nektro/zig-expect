@@ -1,0 +1,6 @@
+id: fo6e62hoe3l6c4034s28z5clbev76timqsy8o2dngnawd5jw
+name: expect
+main: expect.zig
+license: MIT
+description: Jest-style testing for Zig
+dependencies:
