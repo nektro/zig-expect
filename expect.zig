@@ -7,6 +7,7 @@ pub fn expect(actual: anytype) Expect(@TypeOf(actual)) {
 pub fn Expect(T: type) type {
     return struct {
         actual: T,
+        negate: bool = false,
 
         pub fn toEqual(self: *const @This(), expected: T) !void {
             try std.testing.expectEqual(expected, self.actual);
@@ -18,6 +19,18 @@ pub fn Expect(T: type) type {
 
         pub fn toEqualString(self: *const @This(), expected: []const u8) !void {
             try std.testing.expectEqualStrings(expected, self.actual);
+        }
+
+        pub fn not(self: *const @This()) Expect(T) {
+            return .{
+                .actual = self.actual,
+                .negate = !self.negate,
+            };
+        }
+
+        pub fn toBeNull(self: *const @This()) !void {
+            if (!self.negate) try std.testing.expectEqual(@as(?T, null), self.actual);
+            if (self.negate) try std.testing.expect(self.actual != null);
         }
     };
 }
