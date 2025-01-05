@@ -47,5 +47,13 @@ pub fn Expect(T: type) type {
             if (!self.negate) try std.testing.expectEqual(@as(?T, null), self.actual);
             if (self.negate) try std.testing.expect(self.actual != null);
         }
+
+        pub fn toEqualStringSlice(self: *const @This(), expected: []const []const u8) !void {
+            if (info == .Optional) {
+                for (expected, 0..) |e, i| try std.testing.expectEqualStrings(e, self.actual.?[i]);
+                return;
+            }
+            for (expected, 0..) |e, i| try std.testing.expectEqualStrings(e, self.actual[i]);
+        }
     };
 }
