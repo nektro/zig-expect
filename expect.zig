@@ -15,7 +15,7 @@ pub fn Expect(T: type) type {
             try std.testing.expectEqual(expected, self.actual);
         }
 
-        pub fn toEqualSlice(self: *const @This(), expected: T) !void {
+        pub fn toEqualSlice(self: *const @This(), expected: []const std.meta.Elem(T)) !void {
             if (info == .Optional) {
                 try std.testing.expectEqualSlices(std.meta.Elem(T), expected, self.actual.?);
                 return;
