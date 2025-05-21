@@ -16,7 +16,7 @@ pub fn Expect(T: type) type {
         }
 
         pub fn toEqualSlice(self: *const @This(), expected: []const std.meta.Elem(T)) !void {
-            if (info == .Optional) {
+            if (info == .optional) {
                 try std.testing.expectEqualSlices(std.meta.Elem(T), expected, self.actual.?);
                 return;
             }
@@ -24,7 +24,7 @@ pub fn Expect(T: type) type {
         }
 
         pub fn toEqualString(self: *const @This(), expected: []const u8) !void {
-            if (info == .Optional) {
+            if (info == .optional) {
                 try std.testing.expectEqualStrings(expected, self.actual.?);
                 return;
             }
@@ -39,7 +39,7 @@ pub fn Expect(T: type) type {
         }
 
         pub fn toBeNull(self: *const @This()) !void {
-            if (info == .Optional) {
+            if (info == .optional) {
                 if (!self.negate) try std.testing.expectEqual(@as(T, null), self.actual);
                 if (self.negate) try std.testing.expect(self.actual != null);
                 return;
@@ -49,7 +49,7 @@ pub fn Expect(T: type) type {
         }
 
         pub fn toEqualStringSlice(self: *const @This(), expected: []const []const u8) !void {
-            if (info == .Optional) {
+            if (info == .optional) {
                 for (expected, 0..) |e, i| try std.testing.expectEqualStrings(e, self.actual.?[i]);
                 return;
             }
