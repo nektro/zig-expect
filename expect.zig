@@ -28,6 +28,10 @@ pub fn Expect(T: type) type {
                 try std.testing.expectEqualStrings(expected, self.actual.?);
                 return;
             }
+            if (info == .array) {
+                try std.testing.expectEqualStrings(expected, &self.actual);
+                return;
+            }
             try std.testing.expectEqualStrings(expected, self.actual);
         }
 
