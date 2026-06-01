@@ -4,3 +4,4 @@ main: expect.zig
 license: MIT
 description: Jest-style testing for Zig
 dependencies:
+  - src: git https://github.com/nektro/zig-nio

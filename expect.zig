@@ -1,4 +1,5 @@
 const std = @import("std");
+const nio = @import("nio");
 
 pub fn expect(actual: anytype) Expect(@TypeOf(actual)) {
     return .{ .actual = actual };
@@ -63,6 +64,13 @@ pub fn Expect(T: type) type {
         pub fn toEqualFmt(self: *const @This(), comptime fmt: []const u8, args: anytype) !void {
             const allocator = std.testing.allocator;
             const expected = try std.fmt.allocPrint(allocator, fmt, args);
+            defer allocator.free(expected);
+            return toEqualString(self, expected);
+        }
+
+        pub fn toEqualNFmt(self: *const @This(), comptime fmt: []const u8, args: anytype) !void {
+            const allocator = std.testing.allocator;
+            const expected = try nio.fmt.allocPrint(allocator, fmt, args);
             defer allocator.free(expected);
             return toEqualString(self, expected);
         }
