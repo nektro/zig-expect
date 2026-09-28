@@ -63,7 +63,7 @@ pub fn Expect(T: type) type {
 
         pub fn toEqualFmt(self: *const @This(), comptime fmt: []const u8, args: anytype) !void {
             const allocator = std.testing.allocator;
-            const expected = try std.fmt.allocPrint(allocator, fmt, args);
+            const expected = try nio.fmt.allocPrint(allocator, fmt, args);
             defer allocator.free(expected);
             return toEqualString(self, expected);
         }
